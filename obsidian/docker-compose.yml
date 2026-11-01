@@ -1,0 +1,17 @@
+services:
+  obsidian:
+    image: lscr.io/linuxserver/obsidian:arm64v8-latest
+    container_name: obsidian-web
+    restart: unless-stopped
+    shm_size: "1gb"
+    environment:
+      TZ: Europe/London
+      CUSTOM_USER: ${OBSIDIAN_WEB_USER:?Set OBSIDIAN_WEB_USER in .env}
+      PASSWORD: ${OBSIDIAN_WEB_PASSWORD:?Set OBSIDIAN_WEB_PASSWORD in .env}
+    ports:
+      - "3001:3001"
+    volumes:
+      - obsidian_config:/config
+
+volumes:
+  obsidian_config:
