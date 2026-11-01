@@ -1,0 +1,16 @@
+services:
+  couchdb:
+    image: couchdb:3
+    container_name: obsidian-couchdb
+    restart: unless-stopped
+    ports:
+      - "5984:5984"
+    environment:
+      COUCHDB_USER: ${COUCHDB_USER:?Set COUCHDB_USER in .env}
+      COUCHDB_PASSWORD: ${COUCHDB_PASSWORD:?Set COUCHDB_PASSWORD in .env}
+    volumes:
+      - couchdb_data:/opt/couchdb/data
+      - ./local.ini:/opt/couchdb/etc/local.d/obsidian.ini:ro
+
+volumes:
+  couchdb_data:
