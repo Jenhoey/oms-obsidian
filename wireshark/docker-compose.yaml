@@ -1,0 +1,40 @@
+version: "3.8"
+services:
+  wireguard-client:
+    image: lscr.io/linuxserver/wireguard
+    container_name: wireguard-client
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+#    sysctls:
+#      - net.ipv4.conf.all.src_valid_mark=1  # Needed for client mode
+#      - net.ipv6.conf.all.disable_ipv6=1
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      # Client-specific configuration:
+      - SERVERURL=37.230.102.127   # The VPS WireGuard server endpoint
+      - SERVERPORT=51820
+      - PEERDNS=1.1.1.1
+      - INTERNAL_SUBNET=10.13.13.0        # Adjust to match your VPN subnet
+      - S6_LOCK_NO_RECOVER=1
+    volumes:
+      - ./wgclient.conf:/config/wg_confs/wgclient.conf
+      - ./coredns.conf:/config/coredns/Corefile
+      - /etc/localtime:/etc/localtime:ro
+      - /lib/modules:/lib/modules
+    network_mode: host
+#    networks:
+#      default:
+#        ipv4_address: 172.20.0.50
+    restart: always
+#networks:
+#  default:
+#    name: wgnet
+#    driver: bridge
+#    enable_ipv6: false
+#    ipam:
+#      config:
+#        - subnet: 172.20.0.0/24
+#          gateway: 172.20.0.1

@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  # Node Exporter service for metrics collection
+  node_exporter:
+    image: prom/node-exporter
+    container_name: node_exporter
+    networks:
+      - webtraefik
+  # Prometheus service to scrape metrics
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml  # Prometheus config file
+    networks:
+      - webtraefik
+    depends_on:
+      - node_exporter
+
+  # Grafana service to visualize the data
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    networks:
+      - webtraefik
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: "password"
+    volumes:
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      - prometheus
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.lan`) || Host(`grafana.hoey.co.uk`)"
+      - "traefik.http.routers.grafana.entrypoints=web"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+
+networks:
+  webtraefik:
+    external: true

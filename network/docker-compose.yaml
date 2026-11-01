@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  # Traefik service
+  traefik:
+    image: traefik:v2.9
+    container_name: traefik
+    ports:
+      - "80:80" # HTTP
+      - "443:443" # HTTPS (optional if using SSL)
+      - "8080:8080" # Traefik Dashboard
+    networks:
+      - proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml
+    command:
+      - --api.insecure=true
+      - --providers.docker=true
+      - --entrypoints.web.address=:80
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3" 
+  
+  # Unbound DNS resolver
+  unbound:
+    image: klutchell/unbound:latest
+    container_name: unbound
+    networks:
+      - proxy
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    environment:
+      - TZ=UTC
+    volumes:
+      - ./unbound/unbound.conf:/etc/unbound/custom.conf.d/unbound.conf:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+networks:
+  proxy:
+    name: proxy
+    driver: bridge

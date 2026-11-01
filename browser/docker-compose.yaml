@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  firefox:
+    image: jlesage/firefox:latest
+    container_name: firefox
+    platform: linux/arm64
+    ports:
+      - "5800:5800"   # Web UI (noVNC) in your browser
+      - "5900:5900"   # Optional VNC client
+    volumes:
+      - firefox_config:/config:rw
+      - /home/jen:/home/jen:rw
+    environment:
+      - TZ=Europe/Moscow
+      - KEEP_APP_RUNNING=1
+    shm_size: "1gb"
+    restart: unless-stopped
+
+volumes:
+  firefox_config:

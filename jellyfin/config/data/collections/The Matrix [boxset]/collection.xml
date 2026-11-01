@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Item>
+  <ContentRating>GB-15</ContentRating>
+  <Added>02/02/2026 14:54:56</Added>
+  <LockData>false</LockData>
+  <Overview>The Matrix collection depicts a complex science fiction story incorporating many philosophical elements. Written and directed by the Wachowskis and produced by Joel Silver.</Overview>
+  <LocalTitle>The Matrix</LocalTitle>
+  <PremiereDate>1999-03-31</PremiereDate>
+  <DisplayOrder>PremiereDate</DisplayOrder>
+  <ProductionYear>1999</ProductionYear>
+  <TmdbId>2344</TmdbId>
+  <Genres>
+    <Genre>Action</Genre>
+    <Genre>Science Fiction</Genre>
+    <Genre>Adventure</Genre>
+    <Genre>Thriller</Genre>
+  </Genres>
+  <Studios>
+    <Studio>Village Roadshow Pictures</Studio>
+    <Studio>Groucho II Film Partnership</Studio>
+    <Studio>Silver Pictures</Studio>
+    <Studio>Warner Bros. Pictures</Studio>
+    <Studio />
+    <Studio>NPV Entertainment</Studio>
+  </Studios>
+  <CollectionItems>
+    <CollectionItem>
+      <Path>/media/films/the_matrix_1999/the_matrix.mkv</Path>
+    </CollectionItem>
+    <CollectionItem>
+      <Path>/media/films/the_matrix_reloaded_2003/the_matrix_reloaded_2003.mkv</Path>
+    </CollectionItem>
+    <CollectionItem>
+      <Path>/media/films/the_matrix_revolutions_2003/the_matrix_revolutions_2003.mkv</Path>
+    </CollectionItem>
+  </CollectionItems>
+</Item>

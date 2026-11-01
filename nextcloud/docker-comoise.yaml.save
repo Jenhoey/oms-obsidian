@@ -1,0 +1,11 @@
+version: "3.9" services: nextcloud: image: nextcloud:latest 
+    container_name: nextcloud restart: unless-stopped 
+    ports:
+      - 8080:80 # Change this to your desired port volumes: 
+      - /mnt/ssd/nextcloud_data:/var/www/html # Important: 
+      Change /mnt/ssd/nextcloud_data to your desired 
+      folder! - /mnt/ssd/nextcloud_config:/etc/nextcloud # 
+      Change if needed
+    environment: NEXTCLOUD_TRUSTED_DOMAINS: 
+      your.domain.local # Replace with your domain or IP 
+      addres

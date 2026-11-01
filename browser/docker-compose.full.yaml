@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  webtop:
+    image: linuxserver/webtop:ubuntu-xfce
+    container_name: webtop_ubuntu_xfce
+
+    # Ensure ARM64 on Raspberry Pi OS 64-bit / Ubuntu 64-bit
+    platform: linux/arm64
+
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+
+    volumes:
+      - webtop_data:/config
+
+    # Bigger shared memory helps Chromium/Firefox inside Webtop not crash/hang
+    shm_size: "1gb"
+
+    # Optional: small RAM-friendly tmpfs for temp files
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=512m
+
+    # Hardware acceleration (works if /dev/dri exists on the host)
+    devices:
+      - /dev/dri:/dev/dri
+
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Moscow
+
+      # Optional: set a sensible default size/quality (can reduce CPU load)
+      # - CUSTOM_USER=pi
+      # - PASSWORD=changeme
+      # - TITLE=Webtop (Pi 5)
+
+    # Keep it from ballooning on smaller setups (tune to your Pi's RAM)
+    # Uncomment if you want hard limits:
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 3g
+
+    restart: unless-stopped
+
+volumes:
+  webtop_data:
+    driver: local
+
